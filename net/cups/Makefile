@@ -32,7 +32,7 @@ define Package/cups
 $(call Package/cups/Default)
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+libcups +libcupsmime +libcupscgi +libcupsppdc +libusb-1.0 +libavahi-dbus-support +libavahi-client +libdbus +openslp +avahi-autoipd +avahi-dnsconfd
+  DEPENDS:=+libcups +libcupsmime +libcupscgi +libcupsppdc +libusb-1.0 +libavahi-dbus-support +libavahi-client +libdbus +avahi-autoipd +avahi-dnsconfd
   TITLE:=Common UNIX Printing System (daemon)
 endef
 
