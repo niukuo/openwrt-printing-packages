@@ -11,7 +11,9 @@ fork from FranciscoBorges/openwrt-printing-packages
 
 
 使用方法（在LEDE 17.01.6上测试通过）
+
 1） add this line to your `feeds.conf` or `feeds.conf.default`
+
 src-git printing git://github.com/obanat/openwrt-printing-packages.git
 
 2）./scripts/feeds update -a
@@ -51,23 +53,49 @@ src-git printing git://github.com/obanat/openwrt-printing-packages.git
 6) enjoy!
 
 最终编译后，在bin\packages\archxxxx\printing目录下生成如下文件：
+
 cups_1.6.3-4_mips_24kc.ipk
+
 cups-bjnp_1.2-1_mips_24kc.ipk
+
 cups-bsd_1.6.3-4_mips_24kc.ipk
 cups-client_1.6.3-4_mips_24kc.ipk
+
 cups-ppdc_1.6.3-4_mips_24kc.ipk
+
 gutenprint-cups_5.2.11-1_mips_24kc.ipk
+
 lcms2_2.5-1_mips_24kc.ipk
+
 libcups_1.6.3-4_mips_24kc.ipk
+
 libcupscgi_1.6.3-4_mips_24kc.ipk
+
 libcupsimage_1.6.3-4_mips_24kc.ipk
+
 libcupsmime_1.6.3-4_mips_24kc.ipk
+
 libcupsppdc_1.6.3-4_mips_24kc.ipk
+
 libijs_0.35-1_mips_24kc.ipk
+
 openprinting-cups-filters_1.0.37-2_mips_24kc.ipk
+
 poppler_0.24.1-1_mips_24kc.ipk
+
 qpdf_4.0.1-1_mips_24kc.ipk
+
 我用的是魔改的720N，16M flash，最终编译出来的sysupgrade.bin是11M，完全可以接受
 
 ### Issues / Missing / TODO
-添加打印机过程中，设置打印机参数完毕点确认后，会显示“broken pip”，此错误可以忽略，打印机可以正常添加。
+
+1.添加打印机过程中，设置打印机参数完毕点确认后，会显示“broken pip”，此错误可以忽略，打印机可以正常添加。
+
+2.编译过程print-olympus.c报错，原因是字节序宏定义缺失，图省事，直接注释了，实际可以把字节序定义上，arm的机器都是小头序
+
+#else
+
+#error "Unable to determine endianness, aborting compilation!"   //删除此行
+
+#endif
+
