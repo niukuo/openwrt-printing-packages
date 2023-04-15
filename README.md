@@ -1,64 +1,61 @@
 # Printing packages for OpenWrt
 
-This is a [package feed] aiming at providing a complete printing stack
-for OpenWrt.
+fork from FranciscoBorges/openwrt-printing-packages
 
-Notably it has:
-- Ghostscript 9.06
-- Gutenprint 5.2.9
+包含组件：
+- Gutenprint 5.2.11
 - Cups 1.6.3
 - OpenPrinting's cups-filters 1.0.37
 - poppler 0.24.1
-- many other packages to make sure the ones above work...
+.......
 
-[package feed]: http://wiki.openwrt.org/doc/devel/feeds
 
-[timesys.com]: http://repository.timesys.com/buildsources/g/ghostscript/
+使用方法（在LEDE 17.01.6上测试通过）
+1） add this line to your `feeds.conf` or `feeds.conf.default`
+src-git printing git://github.com/obanat/openwrt-printing-packages.git
 
-### To use this feed,
+2）./scripts/feeds update -a
 
-- set up your router to use [external storage] for its root file
-  system, as these packages require more than a 100 MB of space.
+3）./scripts/feeds install -a
 
-[external storage]: http://wiki.openwrt.org/doc/howto/extroot
+4）make menuconfig，Network > Printing 选择如下
 
-- set up a [cross-compilation environment]
-[cross-compilation environment]: http://wiki.openwrt.org/doc/devel/crosscompile
+  │ │  -*- cups................................ Common UNIX Printing System (daemon)       │ │
+  │ │  <*>   cups-bjnp................................. BJNP protocol backend for CUPS     │ │
+  │ │  <*> cups-bsd................ Common UNIX Printing System - BSD commands (old)       │ │
+  │ │  <*> cups-client................ Common UNIX Printing System - Client commands       │ │
+  │ │  <*> cups-ppdc....................... Common UNIX Printing System - PPDC utils       │ │
+  │ │  < > ghostscript.................................................. ghostscript       │ │
+  │ │  < > ghostscript-fonts-std.............................. ghostscript-fonts-std       │ │
+  │ │  < > ghostscript-gnu-gs-fonts-other............ ghostscript-gnu-gs-fonts-other       │ │
+  │ │  <*> gutenprint-cups............... gutenprint-cups -- Gutenprint CUPS drivers       │ │
+  │ │  < > liberation-fonts........................................ liberation-fonts       │ │
+  │ │  <*> openprinting-cups-filters...................... OpenPrinting CUPS filters       │ │
+  │ │  < > p910nd............................... A small non-spooling printer server       │ │
+  │ │  < > ubuntu-fonts................................................ ubuntu-fonts 
 
-- add this line to your `feeds.conf` or `feeds.conf.default`
+5）make V=s
 
-```
-src-git printing git://github.com/FranciscoBorges/openwrt-printing-packages.git
-```
+6) enjoy!
 
-- to compile everything in this feed you should use the script `setup-buildsystem.sh` or some variation of those commands.
-
-- copy compiled packages to your router (copy the whole directory as you need the files used to index the packages)
-
-```
-scp -r ./bin/$ARCH/packages root@openwrt.lan:/storage/printer/packages/
-```
-
-- add local package source to the opkg configuration `/etc/opkg.conf` with
-
-```
-src/gz printing file:/storage/printer/packages
-```
-
-- see `opkg-install-printing-packages.sh` to see a suggestion of what to install.
-
-- tested against *Attitude Adjustment* (because that is what I have installed...).
-
-- Avahi is notified of printers added to Cups, and these will appear as *Air Printer*'s in iOS devices.
+最终编译后，在bin\packages\archxxxx\printing目录下生成如下文件：
+cups_1.6.3-4_mips_24kc.ipk
+cups-bjnp_1.2-1_mips_24kc.ipk
+cups-bsd_1.6.3-4_mips_24kc.ipk
+cups-client_1.6.3-4_mips_24kc.ipk
+cups-ppdc_1.6.3-4_mips_24kc.ipk
+gutenprint-cups_5.2.11-1_mips_24kc.ipk
+lcms2_2.5-1_mips_24kc.ipk
+libcups_1.6.3-4_mips_24kc.ipk
+libcupscgi_1.6.3-4_mips_24kc.ipk
+libcupsimage_1.6.3-4_mips_24kc.ipk
+libcupsmime_1.6.3-4_mips_24kc.ipk
+libcupsppdc_1.6.3-4_mips_24kc.ipk
+libijs_0.35-1_mips_24kc.ipk
+openprinting-cups-filters_1.0.37-2_mips_24kc.ipk
+poppler_0.24.1-1_mips_24kc.ipk
+qpdf_4.0.1-1_mips_24kc.ipk
+我用的是魔改的720N，16M flash，最终编译出来的sysupgrade.bin是11M，完全可以接受
 
 ### Issues / Missing / TODO
-
-Caveat: Ghostscript lacks proper cross-compilation support. I used a
-patch taken from [timesys.com]. If your architecture is not there,
-compiling it just won't work for you.
-
-The alternative for those who can't compile Ghostscript is to use a
-different PDF backend, in this case Poppler. For instructions of how
-to do this open the tar-ball of the `cups-filters-*.tar.bz2` and check
-the section *1. Selection of the renderer: Ghostscript, Poppler, or
-Adobe Reader* of the `README`.
+添加打印机过程中，设置打印机参数完毕点确认后，会显示“broken pip”，此错误可以忽略，打印机可以正常添加。
