@@ -21,17 +21,29 @@ src-git printing git://github.com/obanat/openwrt-printing-packages.git
 4）make menuconfig，Network > Printing 选择如下
 
   │ │  -*- cups................................ Common UNIX Printing System (daemon)       │ │
+  
   │ │  <*>   cups-bjnp................................. BJNP protocol backend for CUPS     │ │
+  
   │ │  <*> cups-bsd................ Common UNIX Printing System - BSD commands (old)       │ │
+  
   │ │  <*> cups-client................ Common UNIX Printing System - Client commands       │ │
+  
   │ │  <*> cups-ppdc....................... Common UNIX Printing System - PPDC utils       │ │
+  
   │ │  < > ghostscript.................................................. ghostscript       │ │
+  
   │ │  < > ghostscript-fonts-std.............................. ghostscript-fonts-std       │ │
+  
   │ │  < > ghostscript-gnu-gs-fonts-other............ ghostscript-gnu-gs-fonts-other       │ │
+  
   │ │  <*> gutenprint-cups............... gutenprint-cups -- Gutenprint CUPS drivers       │ │
+  
   │ │  < > liberation-fonts........................................ liberation-fonts       │ │
+  
   │ │  <*> openprinting-cups-filters...................... OpenPrinting CUPS filters       │ │
+  
   │ │  < > p910nd............................... A small non-spooling printer server       │ │
+  
   │ │  < > ubuntu-fonts................................................ ubuntu-fonts 
 
 5）make V=s
